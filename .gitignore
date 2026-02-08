@@ -1,1 +1,71 @@
+# =========================
+# General
+# =========================
 *.zip
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# =========================
+# Python / Flask
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+instance/
+.webassets-cache
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Flask specific
+flask_session/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# =========================
+# Angular / Node
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular build output
+dist/
+out-tsc/
+
+# Angular environment files
+src/environments/environment*.ts
+
+# =========================
+# IDEs / Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Coverage / Testing
+# =========================
+coverage/
+htmlcov/
+.pytest_cache/
+.nyc_output/
+
+# =========================
+# OS / Misc
+# =========================
+.cache/
