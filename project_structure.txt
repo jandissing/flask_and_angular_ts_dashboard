@@ -1,0 +1,15 @@
+./README.md
+./TECHNICAL_OVERVIEW.md
+./backend/app.py
+./backend/requirements.txt
+./backend/test_api.py
+./backend/test_websocket.py
+./frontend/package.json
+./frontend/src/app/app.component.ts
+./frontend/src/app/app.module.ts
+./frontend/src/app/dashboard/dashboard.component.css
+./frontend/src/app/dashboard/dashboard.component.html
+./frontend/src/app/dashboard/dashboard.component.ts
+./frontend/src/app/services/titanic.service.ts
+./project_structure.txt
+./setup.sh

@@ -1,0 +1,145 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Titanic Survival Dashboard</h1>
+    <button class="refresh-btn" (click)="refresh()">Refresh Data</button>
+  </header>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading dashboard data...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && !error" class="dashboard-content">
+    
+    <!-- Live Metrics Section (WebSocket) -->
+    <section class="live-metrics" *ngIf="liveMetrics">
+      <h2>Live Metrics (WebSocket)</h2>
+      <div class="metrics-grid">
+        <div class="metric-card live">
+          <div class="metric-label">Active Queries</div>
+          <div class="metric-value">{{ liveMetrics.active_queries }}</div>
+          <div class="metric-timestamp">{{ liveMetrics.timestamp | date:'short' }}</div>
+        </div>
+        
+        <div class="metric-card live">
+          <div class="metric-label">Current Survival Rate</div>
+          <div class="metric-value">{{ formatPercentage(liveMetrics.current_survival_rate) }}</div>
+        </div>
+        
+        <div class="metric-card live">
+          <div class="metric-label">Passengers Analyzed</div>
+          <div class="metric-value">{{ liveMetrics.passengers_analyzed }}</div>
+        </div>
+        
+        <div class="metric-card live">
+          <div class="metric-label">Avg Response Time</div>
+          <div class="metric-value">{{ formatNumber(liveMetrics.avg_response_time) }}ms</div>
+        </div>
+        
+        <div class="metric-card live">
+          <div class="metric-label">Memory Usage</div>
+          <div class="metric-value">{{ formatNumber(liveMetrics.memory_usage) }}%</div>
+        </div>
+        
+        <div class="metric-card live recent-survivor">
+          <div class="metric-label">Recent Survivor</div>
+          <div class="survivor-info">
+            <p><strong>{{ liveMetrics.recent_survivor.name }}</strong></p>
+            <p>Age: {{ liveMetrics.recent_survivor.age }} | Class: {{ liveMetrics.recent_survivor.class }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section (REST API) -->
+    <section class="statistics" *ngIf="statistics">
+      <h2>Overall Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Passengers</div>
+          <div class="stat-value">{{ statistics.total_passengers }}</div>
+        </div>
+        
+        <div class="stat-card survived">
+          <div class="stat-label">Survived</div>
+          <div class="stat-value">{{ statistics.survived }}</div>
+        </div>
+        
+        <div class="stat-card perished">
+          <div class="stat-label">Perished</div>
+          <div class="stat-value">{{ statistics.perished }}</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Survival Rate</div>
+          <div class="stat-value">{{ formatPercentage(statistics.survival_rate) }}</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Average Age</div>
+          <div class="stat-value">{{ formatNumber(statistics.avg_age) }}</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Average Fare</div>
+          <div class="stat-value">${{ formatNumber(statistics.avg_fare) }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gender Distribution -->
+    <section class="analysis-section">
+      <h2>Gender Distribution</h2>
+      <div class="analysis-grid">
+        <div class="analysis-card" *ngFor="let gender of survivalByGender">
+          <h3>{{ gender.gender | titlecase }}</h3>
+          <div class="analysis-stats">
+            <p><strong>Total:</strong> {{ gender.total }}</p>
+            <p><strong>Survived:</strong> {{ gender.survived }}</p>
+            <p><strong>Survival Rate:</strong> {{ formatPercentage(gender.survival_rate) }}</p>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="gender.survival_rate * 100"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Class Distribution -->
+    <section class="analysis-section">
+      <h2>Survival by Passenger Class</h2>
+      <div class="analysis-grid">
+        <div class="analysis-card" *ngFor="let classData of survivalByClass">
+          <h3>{{ getClassLabel(classData.class) }}</h3>
+          <div class="analysis-stats">
+            <p><strong>Total:</strong> {{ classData.total }}</p>
+            <p><strong>Survived:</strong> {{ classData.survived }}</p>
+            <p><strong>Survival Rate:</strong> {{ formatPercentage(classData.survival_rate) }}</p>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="classData.survival_rate * 100"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Age Distribution -->
+    <section class="analysis-section">
+      <h2>Age Distribution</h2>
+      <div class="age-distribution">
+        <div class="age-bar-chart">
+          <div class="age-bar" *ngFor="let ageGroup of ageDistribution">
+            <div class="bar-fill" [style.height.px]="ageGroup.count * 2">
+              <span class="bar-value">{{ ageGroup.count }}</span>
+            </div>
+            <div class="bar-label">{{ ageGroup.age_group }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "titanic-dashboard"
+version = "1.0.0"
+description = "Titanic Dashboard with Flask, SocketIO, and Pandas"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^3.0.0"
+flask-cors = "^4.0.0"
+flask-socketio = "^5.3.5"
+pandas = "^2.1.4"
+numpy = "^1.26.2"
+python-socketio = "^5.10.0"
+eventlet = "^0.33.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
